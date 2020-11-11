@@ -1,5 +1,6 @@
 Package: neuronsim
-Title: What the Package Does (One Line, Title Case)
+Title: Simulate The Dynamics of Neuronal Ensembles Using the
+    Model of FREs and QIF Neurons
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Alfredo",
@@ -9,6 +10,11 @@ Authors@R:
            comment = c(ORCID = "0000-0002-2660-4545"))
 Description: What the package does (one paragraph).
 License: GPL-3
+Imports: 
+    deSolve,
+    dplyr,
+    ggplot2,
+    magrittr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
