@@ -4,7 +4,7 @@
 \alias{solve_fre}
 \title{Solve Firing-Rate Equations}
 \usage{
-solve_fre(params, init_state, times, current, method = c("rk4", "euler"))
+solve_fre(params, init_state, times, stimulus, method = c("rk4", "euler"))
 }
 \arguments{
 \item{params}{Named vector of parameters (delta, etabar, J) to pass to the FREs.}
@@ -13,7 +13,7 @@ solve_fre(params, init_state, times, current, method = c("rk4", "euler"))
 
 \item{times}{Time sequence for which output is wanted; the first value of times must be the initial time.}
 
-\item{current}{Input current function of the system.}
+\item{stimulus}{Input stimulus function of the system.}
 
 \item{method}{The integrator to use. The default integrator used is rk4.}
 }

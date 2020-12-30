@@ -13,7 +13,7 @@ mean_field_model_system(t, state, params, input)
 
 \item{params}{Parameters to pass to the FREs (delta, etabar, J).}
 
-\item{input}{Input current function of the system.}
+\item{input}{Input stimulus function of the system.}
 }
 \value{
 List of rates of changes dr and dv.
