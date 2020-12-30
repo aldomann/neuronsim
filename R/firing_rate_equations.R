@@ -26,20 +26,19 @@ mean_field_model_system <- function(t, state, params, input) {
 #' Solve Firing-Rate Equations
 #'
 #' @param params Named vector of parameters (delta, etabar, J) to pass to the FREs.
-#' @param current Input current function of the system.
-#' @param init_r The initial (state) value of r(t) for the ODE system.
-#' @param init_v The initial (state) value of v(t) for the ODE system.
+#' @param init_state Named vector of the initial state (r, v) for the ODE system.
 #' @param times Time sequence for which output is wanted; the first value of times must be the initial time.
+#' @param current Input current function of the system.
 #' @param method The integrator to use. The default integrator used is rk4.
 #'
 #' @return Solution of FRE equations as a data frame
 #' @export
-solve_fre <- function(params, current, init_r, init_v, times, method = c("rk4", "euler")) {
+solve_fre <- function(params, init_state, times, current, method = c("rk4", "euler")) {
   method <- match.arg(method)
 
   fre_output <- dplyr::as_tibble(
     deSolve::ode(
-      y = c(r = init_r, v = init_v),
+      y = init_state,
       times = times,
       func = mean_field_model_system,
       parms = params,
