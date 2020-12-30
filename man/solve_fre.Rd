@@ -2,22 +2,12 @@
 % Please edit documentation in R/solve_fre.R
 \name{solve_fre}
 \alias{solve_fre}
-\title{Title}
+\title{Solve Firing-Rate Equations}
 \usage{
-solve_fre(
-  fun,
-  params,
-  current,
-  init_r,
-  init_v,
-  times,
-  method = c("rk4", "euler")
-)
+solve_fre(params, current, init_r, init_v, times, method = c("rk4", "euler"))
 }
 \arguments{
-\item{fun}{Function that computes the values of the derivatives in the ODE system (the model definition) at time t.}
-
-\item{params}{Parameters to pass to fun.}
+\item{params}{Parameters to pass to the FREs.}
 
 \item{current}{Input current of the system.}
 
@@ -33,5 +23,5 @@ solve_fre(
 Solution of FRE equations as a data frame
 }
 \description{
-Title
+Solve Firing-Rate Equations
 }
