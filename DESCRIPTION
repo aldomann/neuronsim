@@ -14,7 +14,9 @@ Imports:
     deSolve,
     dplyr,
     ggplot2,
-    magrittr
+    magrittr,
+    rlang,
+    patchwork
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
