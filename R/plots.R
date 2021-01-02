@@ -66,3 +66,13 @@ plot_macro_dynamics <- function(data) {
   return(patch)
 }
 
+plot_macro_trajectory <- function(data) {
+  gg <- ggplot(data) +
+    aes(x = r, y = v) +
+    geom_path(
+      colour = "darkorange"
+    ) +
+    labs(x = "r", y = "v")
+
+  return(gg)
+}
