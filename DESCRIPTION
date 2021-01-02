@@ -1,7 +1,7 @@
 Package: neuronsim
 Title: Simulate The Dynamics of Neuronal Ensembles Using the
     Model of FREs and QIF Neurons
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
     person(given = "Alfredo",
            family = "Hernández",
@@ -15,8 +15,8 @@ Imports:
     dplyr,
     ggplot2,
     magrittr,
-    rlang,
-    patchwork
+    patchwork,
+    rlang
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
