@@ -1,3 +1,4 @@
+#' @noRd
 hide_x_axis <- function(gg) {
   gg <- gg +
     ggplot2::theme(
@@ -10,7 +11,7 @@ hide_x_axis <- function(gg) {
   return(gg)
 }
 
-plot_rt <- function(data, hide_x = FALSE) {
+plot_firing_rate <- function(data, hide_x = FALSE) {
   gg <- ggplot(data) +
     aes(x = time, y = r) +
     geom_line(
@@ -25,7 +26,7 @@ plot_rt <- function(data, hide_x = FALSE) {
   return(gg)
 }
 
-plot_vt <- function(data, hide_x = FALSE) {
+plot_membrane_potential <- function(data, hide_x = FALSE) {
   gg <- ggplot(data) +
     aes(x = time, y = v) +
     geom_line(
@@ -40,7 +41,7 @@ plot_vt <- function(data, hide_x = FALSE) {
   return(gg)
 }
 
-plot_curr <- function(data, hide_x = FALSE) {
+plot_input_current <- function(data, hide_x = FALSE) {
   gg <- ggplot(data) +
     aes(x = time, y = current) +
     geom_line() +
@@ -52,3 +53,16 @@ plot_curr <- function(data, hide_x = FALSE) {
 
   return(gg)
 }
+
+
+plot_macro_dynamics <- function(data) {
+  plot_r <- plot_firing_rate(data, hide_x = TRUE)
+  plot_v <- plot_membrane_potential(data, hide_x = TRUE)
+  plot_I <- plot_input_current(data, hide_x = FALSE)
+
+  patch <- list(plot_r, plot_v, plot_I) %>%
+    patchwork::wrap_plots(nrow = 3)
+
+  return(patch)
+}
+
