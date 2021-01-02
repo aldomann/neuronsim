@@ -31,7 +31,7 @@ mean_field_model_system <- function(t, state, params, input) {
 #' @param input Input current or stimulus function of the system.
 #' @param method The integrator to use. The default integrator used is rk4.
 #'
-#' @return Solution of FRE equations as a data frame
+#' @return Solution of FRE equations as a data frame.
 #' @export
 solve_fre <- function(params, init_state, times, input, method = c("rk4", "euler")) {
   method <- match.arg(method)

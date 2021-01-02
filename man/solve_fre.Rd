@@ -18,7 +18,7 @@ solve_fre(params, init_state, times, input, method = c("rk4", "euler"))
 \item{method}{The integrator to use. The default integrator used is rk4.}
 }
 \value{
-Solution of FRE equations as a data frame
+Solution of FRE equations as a data frame.
 }
 \description{
 Solve Firing-Rate Equations
