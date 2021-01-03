@@ -26,7 +26,7 @@ plot_firing_rate <- function(data, hide_x = FALSE) {
     ggplot2::labs(x = "Time (s)", y = "r(t)")
 
   if (hide_x) {
-    gg <- gg %>% hide_x_axis()
+    gg <- hide_x_axis(gg)
   }
 
   return(gg)
@@ -48,7 +48,7 @@ plot_membrane_potential <- function(data, hide_x = FALSE) {
     ggplot2::labs(x = "Time (s)", y = "v(t)")
 
   if (hide_x) {
-    gg <- gg %>% hide_x_axis()
+    gg <- hide_x_axis(gg)
   }
 
   return(gg)
@@ -70,7 +70,7 @@ plot_input_current <- function(data, hide_x = FALSE) {
     ggplot2::labs(x = "Time (s)", y = "I(t)")
 
   if (hide_x) {
-    gg <- gg %>% hide_x_axis()
+    gg <- hide_x_axis(gg)
   }
 
   return(gg)
