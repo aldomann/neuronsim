@@ -1,3 +1,6 @@
+#include "cpp11.hpp"
+using namespace cpp11;
+
 #include <iostream>
 #include <fstream>
 using namespace std;
