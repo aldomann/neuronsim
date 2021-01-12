@@ -20,5 +20,5 @@ List of rates of changes dr and dv.
 }
 \description{
 This nonlinear system describes the macroscopic dynamics of the population of
-QIF neurons in terms ofthe population firing rate r and mean membrane potential v.
+QIF neurons in terms of the population firing rate r and mean membrane potential v.
 }
