@@ -12,10 +12,11 @@ knitr::opts_chunk$set(
 knitr::opts_chunk$set(fig.align = "center")
 ggplot2::theme_set(ggplot2::theme_bw())
 ```
+
 # neuronsim <img src="figures/logo.png" align="right" width="120"/>
 
 <!-- badges: start -->
-<!-- [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/<package>)](https://cran.r-project.org/package=<package>) -->
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/neuronsim)](https://cran.r-project.org/package=neuronsim)
 `r badgecreatr::badge_lifecycle("experimental")`
 <!-- [![R build status](https://github.com/aldomann/<package>/workflows/R-CMD-check/badge.svg)](https://github.com/aldomann/<package>/actions) -->
 <!-- [![Codecov test coverage](https://codecov.io/gh/aldomann/<package>/branch/master/graph/badge.svg)](https://codecov.io/gh/aldomann/<package>?branch=master) -->
