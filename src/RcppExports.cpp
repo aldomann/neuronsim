@@ -6,8 +6,8 @@
 using namespace Rcpp;
 
 // simulate_qif
-List simulate_qif(NumericVector params, NumericVector init_state, NumericVector times, NumericVector input);
-RcppExport SEXP _neuronsim_simulate_qif(SEXP paramsSEXP, SEXP init_stateSEXP, SEXP timesSEXP, SEXP inputSEXP) {
+List simulate_qif(NumericVector params, NumericVector init_state, NumericVector times, NumericVector input, int neurons, int sel_neurons);
+RcppExport SEXP _neuronsim_simulate_qif(SEXP paramsSEXP, SEXP init_stateSEXP, SEXP timesSEXP, SEXP inputSEXP, SEXP neuronsSEXP, SEXP sel_neuronsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -15,13 +15,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type init_state(init_stateSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type times(timesSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type input(inputSEXP);
-    rcpp_result_gen = Rcpp::wrap(simulate_qif(params, init_state, times, input));
+    Rcpp::traits::input_parameter< int >::type neurons(neuronsSEXP);
+    Rcpp::traits::input_parameter< int >::type sel_neurons(sel_neuronsSEXP);
+    rcpp_result_gen = Rcpp::wrap(simulate_qif(params, init_state, times, input, neurons, sel_neurons));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_neuronsim_simulate_qif", (DL_FUNC) &_neuronsim_simulate_qif, 4},
+    {"_neuronsim_simulate_qif", (DL_FUNC) &_neuronsim_simulate_qif, 6},
     {NULL, NULL, 0}
 };
 

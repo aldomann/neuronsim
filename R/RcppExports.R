@@ -7,8 +7,10 @@
 #' @param init_state Named vector of the initial state (r, v) for the ODE system.
 #' @param times Time sequence for which output is wanted; the first value of times must be the initial time.
 #' @param input Input current or stimulus function of the system.
+#' @param neurons Size of the neuronal ensemble.
+#' @param sel_neurons Amount of neurons to save on raster data.
 #' @export
-simulate_qif <- function(params, init_state, times, input) {
-    .Call('_neuronsim_simulate_qif', PACKAGE = 'neuronsim', params, init_state, times, input)
+simulate_qif <- function(params, init_state, times, input, neurons = 10000L, sel_neurons = 300L) {
+    .Call('_neuronsim_simulate_qif', PACKAGE = 'neuronsim', params, init_state, times, input, neurons, sel_neurons)
 }
 
