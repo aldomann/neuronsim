@@ -14,13 +14,11 @@ using namespace Rcpp;
 //' @param init_state Named vector of the initial state (r, v) for the ODE system.
 //' @param times Time sequence for which output is wanted; the first value of times must be the initial time.
 //' @param input Input current or stimulus function of the system.
+//' @param neurons Size of the neuronal ensemble.
+//' @param sel_neurons Amount of neurons to save on raster data.
 //' @export
 // [[Rcpp::export]]
-List simulate_qif(NumericVector params, NumericVector init_state, NumericVector times, NumericVector input) {
-  // Physical parameters
-  int neurons = 10000;
-  int sel_neurons = 300;
-
+List simulate_qif(NumericVector params, NumericVector init_state, NumericVector times, NumericVector input, int neurons = 10000, int sel_neurons = 300) {
   // Parse params
   double delta = params[0];
   double etabar = params[1];
