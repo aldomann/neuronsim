@@ -37,7 +37,7 @@ List simulate_qif(NumericVector params, NumericVector init_state, NumericVector 
   double t_final = times[n - 1];
 
   // double h = 0.0001;
-  double h = 0.01;
+  double h = times[1] - times[0];
   int steps = int((t_final - t_init) / h);
   int refract_steps = int(1 / (vp * h));
   double tau = 0.001; // For the synaptic activation
