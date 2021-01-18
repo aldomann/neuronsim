@@ -4,7 +4,14 @@
 \alias{simulate_qif}
 \title{Simulate QIF Neurons}
 \usage{
-simulate_qif(params, init_state, times, input)
+simulate_qif(
+  params,
+  init_state,
+  times,
+  input,
+  neurons = 10000L,
+  sel_neurons = 300L
+)
 }
 \arguments{
 \item{params}{Named vector of parameters (delta, etabar, J) to pass to the FREs.}
@@ -14,6 +21,10 @@ simulate_qif(params, init_state, times, input)
 \item{times}{Time sequence for which output is wanted; the first value of times must be the initial time.}
 
 \item{input}{Input current or stimulus function of the system.}
+
+\item{neurons}{Size of the neuronal ensemble.}
+
+\item{sel_neurons}{Amount of neurons to save on raster data.}
 }
 \description{
 Simulate QIF Neurons
