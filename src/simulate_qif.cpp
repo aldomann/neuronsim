@@ -108,6 +108,8 @@ List simulate_qif(NumericVector params, NumericVector init_state, NumericVector 
     Named("current") = input
   );
 
+  Data.attr("type") = Rcpp::CharacterVector::create("qif");
+
   List Results = List::create(Named("data") = Data);
 
   return Results;

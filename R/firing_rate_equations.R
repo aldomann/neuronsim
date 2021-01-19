@@ -53,6 +53,8 @@ solve_fre <- function(params, init_state, times, input, method = c("rk4", "euler
       dplyr::across(.cols = dplyr::everything(), .f = as.numeric)
     )
 
+  attr(fre_output, "type") <- "fre"
+
   return(fre_output)
 }
 
