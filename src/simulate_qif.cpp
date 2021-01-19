@@ -34,7 +34,6 @@ List simulate_qif(NumericVector params, NumericVector init_state, NumericVector 
   int n = times.size();
   double t_final = times[n - 1];
 
-  // double h = 0.0001;
   double h = times[1] - times[0];
   int steps = int((t_final - t_init) / h);
   int refract_steps = int(1 / (vp * h));
@@ -44,7 +43,7 @@ List simulate_qif(NumericVector params, NumericVector init_state, NumericVector 
   vector<double> eta(neurons);
   srand(time(0));
   for (int n = 0; n < neurons; n++) {
-    eta[n] = tan(M_PI * (((double) rand() / (RAND_MAX)) - 0.5 )) + etabar;
+    eta[n] = tan(M_PI * (((double) rand() / (RAND_MAX)) - 0.5)) + etabar;
   }
 
   // Initialize mean membrane potential vector
@@ -55,7 +54,6 @@ List simulate_qif(NumericVector params, NumericVector init_state, NumericVector 
   vector< vector<double> > v;
   v.resize(2, vector<double>(neurons));
   for (int n = 0; n < neurons; n++) {
-    // Initial membrane potential state
     v[0][n] = v0;
   }
 
@@ -67,6 +65,7 @@ List simulate_qif(NumericVector params, NumericVector init_state, NumericVector 
   // Loop
   for (int i = 1; i < steps + 1; i++) {
     for (int n = 0; n < neurons; n++) {
+
       if(spike_times[n] == 0 && v[0][n] >= vp) {
         // Save time i and v(t = i) value
         spike_times[n] = i;
@@ -79,8 +78,9 @@ List simulate_qif(NumericVector params, NumericVector init_state, NumericVector 
           // Post spike
           v[1][n] = -vp;
           fire_rate[i] += 0.01;
-          // if (n < sel_neurons && i == spike_times[n] + refract_steps + 1){ // Only consider selected neurons
-          //   // raster_file << double(i) * h << " " << n + 1 << endl ;
+          // Only consider selected neurons
+          // if (n < sel_neurons && i == spike_times[n] + refract_steps + 1) {
+          //   raster_file << double(i) * h << " " << n + 1 << endl ;
           // }
           if (i < spike_times[n] + refract_steps + int(tau / h)) {
             syn_act[i] += 1 / (tau * neurons);
@@ -94,7 +94,6 @@ List simulate_qif(NumericVector params, NumericVector init_state, NumericVector 
         spike_times[n] = 0;
       }
 
-
       // Reset matrix
       v[0][n] = v[1][n];
       v_avg[i] += v[1][n] / neurons;
@@ -102,7 +101,14 @@ List simulate_qif(NumericVector params, NumericVector init_state, NumericVector 
   }
 
   // Return object
-  List Results = List::create(v_avg, fire_rate, times, input);
+  DataFrame Data = DataFrame::create(
+    Named("time") = times,
+    Named("r") = fire_rate,
+    Named("v") = v_avg,
+    Named("current") = input
+  );
+
+  List Results = List::create(Named("data") = Data);
 
   return Results;
 }
