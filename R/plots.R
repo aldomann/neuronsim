@@ -21,8 +21,9 @@ hide_x_axis <- function(gg) {
 #' @importFrom rlang .data
 plot_firing_rate <- function(data, hide_x = FALSE) {
   gg <- ggplot2::ggplot(data) +
-    ggplot2::aes(x = .data$time, y = .data$r) +
-    ggplot2::geom_line(colour = "darkorange") +
+    ggplot2::aes(x = .data$time, y = .data$r, colour = .data$type) +
+    ggplot2::geom_line() +
+    ggplot2::scale_colour_manual(values = c("qif" = "black", "fre" = "darkorange")) +
     ggplot2::labs(x = "Time (s)", y = "r(t)")
 
   if (hide_x) {
@@ -43,8 +44,9 @@ plot_firing_rate <- function(data, hide_x = FALSE) {
 #' @importFrom rlang .data
 plot_membrane_potential <- function(data, hide_x = FALSE) {
   gg <- ggplot2::ggplot(data) +
-    ggplot2::aes(x = .data$time, y = .data$v) +
-    ggplot2::geom_line(colour = "darkorange") +
+    ggplot2::aes(x = .data$time, y = .data$v, colour = .data$type) +
+    ggplot2::geom_line() +
+    ggplot2::scale_colour_manual(values = c("qif" = "black", "fre" = "darkorange")) +
     ggplot2::labs(x = "Time (s)", y = "v(t)")
 
   if (hide_x) {
@@ -88,7 +90,7 @@ plot_macro_dynamics <- function(data) {
   plot_I <- plot_input_current(data, hide_x = FALSE)
 
   patch <- list(plot_r, plot_v, plot_I) %>%
-    patchwork::wrap_plots(nrow = 3)
+    patchwork::wrap_plots(nrow = 3, guides = "collect")
 
   return(patch)
 }
