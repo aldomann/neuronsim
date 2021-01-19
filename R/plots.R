@@ -78,13 +78,13 @@ plot_input_current <- function(data, hide_x = FALSE) {
   return(gg)
 }
 
-#' Plot Macroscopic Dynamics
+#' Plot Neuronal Ensemble Dynamics
 #'
 #' @param data FREs solution, result of \code{solve_fre()}.
 #'
 #' @return A \code{gg} object.
 #' @export
-plot_macro_dynamics <- function(data) {
+plot_dynamics <- function(data) {
   plot_r <- plot_firing_rate(data, hide_x = TRUE)
   plot_v <- plot_membrane_potential(data, hide_x = TRUE)
   plot_I <- plot_input_current(data, hide_x = FALSE)
@@ -105,7 +105,7 @@ plot_macro_dynamics <- function(data) {
 #' @export
 #'
 #' @importFrom rlang .data
-plot_macro_trajectory <- function(data) {
+plot_trajectory <- function(data) {
   gg <- ggplot2::ggplot(data) +
     ggplot2::aes(x = .data$r, y = .data$v) +
     ggplot2::geom_path(colour = "darkorange") +
