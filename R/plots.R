@@ -87,13 +87,23 @@ plot_input_current <- function(data, hide_x = FALSE) {
 #'
 #' @return A \code{gg} object.
 #' @export
-plot_dynamics <- function(data) {
+plot_dynamics <- function(data, raster_data = NULL) {
   plot_r <- plot_firing_rate(data, hide_x = TRUE)
   plot_v <- plot_membrane_potential(data, hide_x = TRUE)
   plot_I <- plot_input_current(data, hide_x = FALSE)
 
-  patch <- list(plot_r, plot_v, plot_I) %>%
-    patchwork::wrap_plots(nrow = 3, guides = "collect")
+  if (is.null(raster_data)) {
+    plot_list <- list(plot_r, plot_v, plot_I)
+  } else {
+    plot_raster <- NULL
+    plot_list <- list(plot_r, plot_v, plot_raster, plot_I)
+  }
+
+  patch <- plot_list %>%
+    patchwork::wrap_plots(
+      nrow = lenth(.),
+      guides = "collect"
+    )
 
   return(patch)
 }

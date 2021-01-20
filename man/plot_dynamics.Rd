@@ -4,7 +4,7 @@
 \alias{plot_dynamics}
 \title{Plot Neuronal Ensemble Dynamics}
 \usage{
-plot_dynamics(data)
+plot_dynamics(data, raster_data = NULL)
 }
 \arguments{
 \item{data}{FREs solution, result of \code{solve_fre()}.}
