@@ -66,7 +66,10 @@ plot_membrane_potential <- function(data, hide_x = FALSE) {
 #'
 #' @importFrom rlang .data
 plot_input_current <- function(data, hide_x = FALSE) {
-  gg <- ggplot2::ggplot(data) +
+  gg <- data %>%
+    dplyr::select(.data$time, .data$current) %>%
+    dplyr::distinct() %>%
+    ggplot2::ggplot() +
     ggplot2::aes(x = .data$time, y = .data$current) +
     ggplot2::geom_line(colour = "black") +
     ggplot2::labs(x = "Time (s)", y = "I(t)")
