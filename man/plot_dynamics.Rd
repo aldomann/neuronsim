@@ -7,7 +7,9 @@
 plot_dynamics(data, raster_data = NULL)
 }
 \arguments{
-\item{data}{FREs solution, result of \code{solve_fre()}.}
+\item{data}{Data frame or list of data frames from FREs solution or QIF neurons simulation, result of \code{solve_fre()} and \code{simulate_qif()} respectively.}
+
+\item{raster_data}{Raster data from QIF neurons simulation.}
 }
 \value{
 A \code{gg} object.

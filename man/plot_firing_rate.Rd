@@ -7,7 +7,7 @@
 plot_firing_rate(data, hide_x = FALSE)
 }
 \arguments{
-\item{data}{FREs solution, result of \code{solve_fre()}.}
+\item{data}{Data frame or list of data frames from FREs solution or QIF neurons simulation, result of \code{solve_fre()} and \code{simulate_qif()} respectively.}
 
 \item{hide_x}{If TRUE, the \code{x} axis will not be shown.}
 }
