@@ -1,4 +1,32 @@
 #' @noRd
+bind_data_list <- function(data_list) {
+  # Allow data frames as input
+  if ("data.frame" %in% class(data_list)) {
+    data_list <- list(data_list)
+  }
+
+  # Parse type attribute
+  names(data_list) <- data_list %>%
+    purrr::map(
+    .f = function(x) {
+      return(attr(x, "type"))
+    }
+  ) %>%
+    unlist()
+
+  # Bind data and factor type variable
+  data_bind <- dplyr::bind_rows(
+    data_list,
+    .id = "type"
+  ) %>%
+    dplyr::mutate(
+      type = factor(.data$type, levels = c("qif", "fre"))
+    )
+
+  return(data_bind)
+}
+
+#' @noRd
 hide_x_axis <- function(gg) {
   gg <- gg +
     ggplot2::theme(
@@ -12,7 +40,7 @@ hide_x_axis <- function(gg) {
 
 #' Plot Firing Rate
 #'
-#' @param data FREs solution, result of \code{solve_fre()}.
+#' @param data Data frame or list of data frames from FREs solution or QIF neurons simulation, result of \code{solve_fre()} and \code{simulate_qif()} respectively.
 #' @param hide_x If TRUE, the \code{x} axis will not be shown.
 #'
 #' @return A \code{gg} object.
@@ -20,7 +48,9 @@ hide_x_axis <- function(gg) {
 #'
 #' @importFrom rlang .data
 plot_firing_rate <- function(data, hide_x = FALSE) {
-  gg <- ggplot2::ggplot(data) +
+  gg <- data %>%
+    bind_data_list() %>%
+    ggplot2::ggplot() +
     ggplot2::aes(x = .data$time, y = .data$r, colour = .data$type) +
     ggplot2::geom_line() +
     ggplot2::scale_colour_manual(values = c("qif" = "black", "fre" = "darkorange")) +
@@ -35,7 +65,7 @@ plot_firing_rate <- function(data, hide_x = FALSE) {
 
 #' Plot Membrane Potential
 #'
-#' @param data FREs solution, result of \code{solve_fre()}.
+#' @param data Data frame or list of data frames from FREs solution or QIF neurons simulation, result of \code{solve_fre()} and \code{simulate_qif()} respectively.
 #' @param hide_x If TRUE, the \code{x} axis will not be shown.
 #'
 #' @return A \code{gg} object.
@@ -43,7 +73,9 @@ plot_firing_rate <- function(data, hide_x = FALSE) {
 #'
 #' @importFrom rlang .data
 plot_membrane_potential <- function(data, hide_x = FALSE) {
-  gg <- ggplot2::ggplot(data) +
+  gg <- data %>%
+    bind_data_list() %>%
+    ggplot2::ggplot() +
     ggplot2::aes(x = .data$time, y = .data$v, colour = .data$type) +
     ggplot2::geom_line() +
     ggplot2::scale_colour_manual(values = c("qif" = "black", "fre" = "darkorange")) +
@@ -58,7 +90,7 @@ plot_membrane_potential <- function(data, hide_x = FALSE) {
 
 #' Plot Input Current
 #'
-#' @param data FREs solution, result of \code{solve_fre()}.
+#' @param data Data frame or list of data frames from FREs solution or QIF neurons simulation, result of \code{solve_fre()} and \code{simulate_qif()} respectively.
 #' @param hide_x If TRUE, the \code{x} axis will not be shown.
 #'
 #' @return A \code{gg} object.
@@ -67,6 +99,7 @@ plot_membrane_potential <- function(data, hide_x = FALSE) {
 #' @importFrom rlang .data
 plot_input_current <- function(data, hide_x = FALSE) {
   gg <- data %>%
+    bind_data_list() %>%
     dplyr::select(.data$time, .data$current) %>%
     dplyr::distinct() %>%
     ggplot2::ggplot() +
@@ -83,7 +116,8 @@ plot_input_current <- function(data, hide_x = FALSE) {
 
 #' Plot Neuronal Ensemble Dynamics
 #'
-#' @param data FREs solution, result of \code{solve_fre()}.
+#' @param data Data frame or list of data frames from FREs solution or QIF neurons simulation, result of \code{solve_fre()} and \code{simulate_qif()} respectively.
+#' @param raster_data Raster data from QIF neurons simulation.
 #'
 #' @return A \code{gg} object.
 #' @export
@@ -101,7 +135,7 @@ plot_dynamics <- function(data, raster_data = NULL) {
 
   patch <- plot_list %>%
     patchwork::wrap_plots(
-      nrow = lenth(.),
+      nrow = length(.),
       guides = "collect"
     )
 
