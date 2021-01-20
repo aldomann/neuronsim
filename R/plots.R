@@ -6,13 +6,7 @@ bind_data_list <- function(data_list) {
   }
 
   # Parse type attribute
-  names(data_list) <- data_list %>%
-    purrr::map(
-    .f = function(x) {
-      return(attr(x, "type"))
-    }
-  ) %>%
-    unlist()
+  names(data_list) <- unlist(lapply(data_list, function(x) attr(x, "type")))
 
   # Bind data and factor type variable
   data_bind <- dplyr::bind_rows(
