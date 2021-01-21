@@ -19,7 +19,7 @@ using namespace Rcpp;
 //' @export
 // [[Rcpp::export]]
 List simulate_qif(NumericVector params, NumericVector init_state, NumericVector times, NumericVector input, int neurons = 10000, int sel_neurons = 300) {
-  // Parse params
+  // Parse physical parameters
   double delta = params[0];
   double etabar = params[1];
   double J = params[2];
@@ -39,28 +39,32 @@ List simulate_qif(NumericVector params, NumericVector init_state, NumericVector 
   int refract_steps = int(1 / (vp * h));
   double tau = 0.001; // For the synaptic activation
 
-  // Initialize eta vector
+  // Initialise eta vector
   vector<double> eta(neurons);
   srand(time(0));
   for (int n = 0; n < neurons; n++) {
     eta[n] = tan(M_PI * (((double) rand() / (RAND_MAX)) - 0.5)) + etabar;
   }
 
-  // Initialize mean membrane potential vector
+  // Initialise mean membrane potential vector
   vector<double> v_avg(steps + 1);
   v_avg[0] = v0;
 
-  // Initialize membrane potential matrix
+  // Initialise membrane potential matrix
   vector< vector<double> > v;
   v.resize(2, vector<double>(neurons));
   for (int n = 0; n < neurons; n++) {
     v[0][n] = v0;
   }
 
-  // Initialize spike and synaptic activation vectors
+  // Initialise spike and synaptic activation vectors
   vector<int> spike_times(neurons, 0);
   vector<double> fire_rate(steps + 1, 0);
   vector<double> syn_act(steps + 1, 0.0);
+
+  // Initialise raster data vectors
+  vector<double> raster_times;
+  vector<int> raster_neurons;
 
   // Loop
   for (int i = 1; i < steps + 1; i++) {
@@ -79,9 +83,11 @@ List simulate_qif(NumericVector params, NumericVector init_state, NumericVector 
           v[1][n] = -vp;
           fire_rate[i] += 0.01;
           // Only consider selected neurons
-          // if (n < sel_neurons && i == spike_times[n] + refract_steps + 1) {
-          //   raster_file << double(i) * h << " " << n + 1 << endl ;
-          // }
+          if (n < sel_neurons && i == spike_times[n] + refract_steps + 1) {
+            // raster_file << double(i) * h << " " << n + 1 << endl ;
+            raster_times.push_back(double(i) * h);
+            raster_neurons.push_back(n + 1);
+          }
           if (i < spike_times[n] + refract_steps + int(tau / h)) {
             syn_act[i] += 1 / (tau * neurons);
           }
@@ -108,9 +114,17 @@ List simulate_qif(NumericVector params, NumericVector init_state, NumericVector 
     Named("current") = input
   );
 
+  DataFrame Raster = DataFrame::create(
+    Named("time") = raster_times,
+    Named("neuron") = raster_neurons
+  );
+
   Data.attr("type") = Rcpp::CharacterVector::create("qif");
 
-  List Results = List::create(Named("data") = Data);
+  List Results = List::create(
+    Named("data") = Data,
+    Named("raster") = Raster
+  );
 
   return Results;
 }
