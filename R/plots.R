@@ -47,8 +47,11 @@ plot_firing_rate <- function(data, hide_x = FALSE) {
     ggplot2::ggplot() +
     ggplot2::aes(x = .data$time, y = .data$r, colour = .data$type) +
     ggplot2::geom_line() +
-    ggplot2::scale_colour_manual(values = c("qif" = "black", "fre" = "darkorange")) +
-    ggplot2::labs(x = "Time (s)", y = "r(t)")
+    ggplot2::scale_colour_manual(
+      values = c("qif" = "black", "fre" = "darkorange"),
+      labels = c("qif" = "QIF", "fre" = "FREs")
+    ) +
+    ggplot2::labs(x = "Time (s)", y = "r(t)", colour = "Model")
 
   if (hide_x) {
     gg <- hide_x_axis(gg)
@@ -72,8 +75,11 @@ plot_membrane_potential <- function(data, hide_x = FALSE) {
     ggplot2::ggplot() +
     ggplot2::aes(x = .data$time, y = .data$v, colour = .data$type) +
     ggplot2::geom_line() +
-    ggplot2::scale_colour_manual(values = c("qif" = "black", "fre" = "darkorange")) +
-    ggplot2::labs(x = "Time (s)", y = "v(t)")
+    ggplot2::scale_colour_manual(
+      values = c("qif" = "black", "fre" = "darkorange"),
+      labels = c("qif" = "QIF", "fre" = "FREs")
+    ) +
+    ggplot2::labs(x = "Time (s)", y = "v(t)", colour = "Model")
 
   if (hide_x) {
     gg <- hide_x_axis(gg)
@@ -108,6 +114,30 @@ plot_input_current <- function(data, hide_x = FALSE) {
   return(gg)
 }
 
+#' Plot Raster Data
+#'
+#' @param data Raster data frame from QIF neurons simulation, result of \code{simulate_qif()}.
+#' @param hide_x If TRUE, the \code{x} axis will not be shown.
+#'
+#' @return A \code{gg} object.
+#' @export
+#'
+#' @importFrom rlang .data
+plot_raster_data <- function(data, hide_x = FALSE) {
+  gg <- data %>%
+    ggplot2::ggplot() +
+    ggplot2::aes(x = .data$time, y = .data$neuron) +
+    ggplot2::geom_point(colour = "black", size = 0.1, alpha = 0.2) +
+    ggplot2::expand_limits(x = 0) +
+    ggplot2::labs(x = "Time (s)", y = "Neuron index")
+
+  if (hide_x) {
+    gg <- hide_x_axis(gg)
+  }
+
+  return(gg)
+}
+
 #' Plot Neuronal Ensemble Dynamics
 #'
 #' @param data Data frame or list of data frames from FREs solution or QIF neurons simulation, result of \code{solve_fre()} and \code{simulate_qif()} respectively.
@@ -123,7 +153,7 @@ plot_dynamics <- function(data, raster_data = NULL) {
   if (is.null(raster_data)) {
     plot_list <- list(plot_r, plot_v, plot_I)
   } else {
-    plot_raster <- NULL
+    plot_raster <- plot_raster_data(raster_data, hide_x = TRUE)
     plot_list <- list(plot_r, plot_v, plot_raster, plot_I)
   }
 
