@@ -37,9 +37,9 @@ devtools::install_github("aldomann/neuronsim")
 library(neuronsim)
 
 init_state <- c(r = 0, v = -2)
-params <- c(delta = 1, etabar = -2.5, J = 10.5)
-times_seq <- seq(from = -10, to = 80, by = 0.0001)
-current <- sin_input(t, current = 3, frequency = pi / 20)
+params <- c(delta = 1, etabar = -5, J = 15)
+times_seq <- seq(from = -10, to = 40, by = 0.001)
+current <- constant_input(t, current = 3, t_start = 0, t_end = 30)
 ```
 
 The macroscopic dynamics of neuronal ensembles can be described by
@@ -71,8 +71,10 @@ To plot the macroscopic and microscopic dynamics of the ensemble we can
 run:
 
 ``` r
-list(fre_output, qif_output$data) %>% 
-  plot_dynamics()
+plot_dynamics(
+  data = list(fre_output, qif_output$data),
+  raster_data = qif_output$raster
+)
 ```
 
-![](https://raw.githubusercontent.com/aldomann/neuronsim/main/man/figures/README-sin_dynamics-1.png)
+<img src="man/figures/README-sin-dynamics-1.png" style="display: block; margin: auto;" />
